@@ -37,7 +37,7 @@ pipeline{
  
             steps{
  
-                deploy adapters: [tomcat9(alternativeDeploymentContext: '', credentialsId: 'TomcatCredentials', path: '', url: 'http://localhost:8080/')], contextPath: 'OnlineBookStore', war: 'target/*.war'
+                deploy adapters: [tomcat9(alternativeDeploymentContext: '', credentialsId: 'TomcatCredentials', path: '', url: 'http://localhost:8080/')], contextPath: 'PetClinic', war: 'target/*.war'
             }
         }
     }
