@@ -1,59 +1,52 @@
 pipeline{
     agent any
-
-	tools {
-        maven 'maven'
-    }
     stages{
-        
         stage('Clone'){
-            
             steps{
-                
-              git branch: 'main', url: 'https://github.com/veerendrachilukuri/Petclinic.git'
+              git branch: 'feature/2026.11.12', url: 'https://github.com/veerendrachilukuri/Petclinic.git'
             }
         }
         stage('Build'){
-            
             steps{
                 bat 'mvn install'
             }
         }
         stage('Test'){
-
+ 
             steps{
-
+ 
                 bat 'mvn test'
             }
         }
-		 stage('Generated test Results'){
-
+ 
+        stage('Generated Tests Reports'){
+ 
             steps{
-
-              junit 'target/surefire-reports/*.xml'
+                junit 'target/surefire-reports/*.xml'
             }
         }
         
-         stage('Sonarqube Analysis'){
-
+        stage('Sonarqube Analysis'){
+ 
             steps{
-
-             bat '''mvn install verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar \
-             -Dsonar.projectKey=spring-petclinic \
-             -Dsonar.projectName='spring-petclinic' \
-             -Dsonar.host.url=http://localhost:9000 \
-             -Dsonar.token=sqp_002f00ab29402d39aada84f68a8cd52ae20ab536'''
+               
+               bat ''' mvn clean verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar \
+               -Dsonar.projectKey=Spring-Petclinic \
+               -Dsonar.projectName='Spring-Petclinic' \
+               -Dsonar.host.url=http://localhost:9000 \
+               -Dsonar.token=sqp_4a58f58d5b4cd1dd1544bbf761c344b9167521c7'''
             }
         }
+        
         stage('Published Artifcats'){
-
+ 
             steps{
-
+ 
                 archiveArtifacts artifacts: 'target/*.war', followSymlinks: false
             }
         }
-        
-        stage ('Artifactory Server'){
+
+	stage ('Artifactory Server'){
 
     steps {
     
@@ -116,11 +109,11 @@ stage ('Publish build info') {
     
 }
         
-        stage('Deploy'){
-
+        stage('Deployment'){
+ 
             steps{
-
-              deploy adapters: [tomcat9(alternativeDeploymentContext: '', credentialsId: 'TomcatCredentials', path: '', url: 'http://localhost:8080/')], contextPath: 'Petclinic', war: 'target/*.war'
+ 
+                deploy adapters: [tomcat9(alternativeDeploymentContext: '', credentialsId: 'TomcatCredentials', path: '', url: 'http://localhost:8080/')], contextPath: 'PetClinic', war: 'target/*.war'
             }
         }
     }
