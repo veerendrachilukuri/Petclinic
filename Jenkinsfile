@@ -6,7 +6,7 @@ pipeline{
             
             steps{
                 
-              git branch: 'main', url: 'https://github.com/srinfotechbatch9/Petclinic.git'
+              git branch: 'main', url: 'https://github.com/veerendrachilukuri/Petclinic.git'
             }
         }
         stage('Build'){
@@ -87,7 +87,7 @@ stage('Upload'){
               
               "pattern": "*.war",
               
-              "target": "srinfotech-batch9"
+              "target": "VeerendraChilukuri"
               
               }
               
@@ -116,7 +116,7 @@ stage ('Publish build info') {
 
             steps{
 
-              deploy adapters: [tomcat9(alternativeDeploymentContext: '', credentialsId: 'Tomcatcredentials', path: '', url: 'http://localhost:8080/')], contextPath: 'Petclinic', war: 'target/*.war'
+              deploy adapters: [tomcat9(alternativeDeploymentContext: '', credentialsId: 'TomcatCredentials', path: '', url: 'http://localhost:8080/')], contextPath: 'Petclinic', war: 'target/*.war'
             }
         }
     }
